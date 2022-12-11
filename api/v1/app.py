@@ -9,11 +9,11 @@ from api.v1.views import app_views
 
 try:
     host = os.getenv('HBNB_API_HOST')
-except:
+except Exception:
     host = '0.0.0.0'
 try:
     port = os.getenv('HBNB_API_PORT')
-except:
+except Exception:
     port = 5000
 
 
@@ -24,6 +24,7 @@ app.register_blueprint(app_views)
 @app.teardown_appcontext
 def tear_down(exception):
     storage.close()
+
 
 @app.errorhandler(404)
 def four_o_four(e):
