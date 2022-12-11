@@ -25,6 +25,10 @@ app.register_blueprint(app_views)
 def tear_down(exception):
     storage.close()
 
+@app.errorhandler(404)
+def four_o_four(e):
+    return {"error": "Not found"}, 404
+
 
 if __name__ == "__main__":
     app.run(host=host, port=port,
