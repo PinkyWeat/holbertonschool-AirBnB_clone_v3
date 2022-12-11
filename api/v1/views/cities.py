@@ -27,4 +27,4 @@ def get_city_id(c_id):
     """gets city by id"""
     if storage.get(City, c_id) is None:
         abort(404)
-    return storage.get(City, c_id).to_dict()
+    return jsonify(storage.get(City, c_id).to_dict())
