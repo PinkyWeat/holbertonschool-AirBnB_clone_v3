@@ -28,3 +28,14 @@ def city_by_id(city_id):
     if city is None:
         abort(404)
     return city.to_dict()
+
+@app_views.route("/cities/<city_id>", methods=['DELETE'], strict_slashes=False)
+def del_city(city_id):
+    """deletes city by id"""
+    city = storage.get(City, city_id)
+    if city is None:
+        abort(404)
+    else:
+        city.delete()
+        storage.save()
+        return {}, 200
