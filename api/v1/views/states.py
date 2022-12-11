@@ -16,6 +16,7 @@ def get_all_states():
         themStates.append(state.to_dict())
     return jsonify(themStates)
 
+
 @app_views.route('/states/<s_id>', methods=['GET'], strict_slashes=False)
 def get_state(s_id=None):
     """if no state id is given four o four error, else prints the state"""
@@ -23,6 +24,7 @@ def get_state(s_id=None):
         abort(404)
     # if id is not none then it can get it
     return jsonify(storage.get(State, s_id).to_dict())
+
 
 @app_views.route("/states/<s_id>", methods=['DELETE'], strict_slashes=False)
 def del_state(s_id):
@@ -32,3 +34,16 @@ def del_state(s_id):
     storage.get(State, s_id).delete()
     storage.save()
     return ({}), 200
+
+
+@app_views.route("/states/<s_id>", methods=['POST'], strict_slashes=False)
+def post_state(s_id):
+    """enables users to send HTML form data to server"""
+    if not request.get_json():
+        abort(400, "Not a JSON")
+    elif "name" not in request.get_json():
+        return abort(400, "Missing Name")
+
+    state_post = State(**request.get_json())
+    state_post.save()
+    return jsonify(state_post.to_dict(), 201)
