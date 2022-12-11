@@ -40,9 +40,9 @@ def del_state(s_id):
 def post_state():
     """enables users to send HTML form data to server"""
     if not request.get_json():
-        abort(400, 'Not a JSON')
+        abort(404, description='Not a JSON')
     elif 'name' not in request.get_json():
-        abort(400, 'Missing Name')
+        abort(404, description='Missing Name')
 
     state_post = State(**request.get_json())
     state_post.save()
