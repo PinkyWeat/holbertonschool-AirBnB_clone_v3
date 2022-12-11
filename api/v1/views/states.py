@@ -53,12 +53,13 @@ def post_state():
 @app_views.route("states/<s_id>", methods=['PUT'], strict_slashes=False)
 def put_states(s_id):
     """puts updated instance"""
-    s_obj = torage.get(State, s_id)
+    s_obj = storage.get(State, s_id)
+    s_info = request.get_json()
     if not s_obj:
         abort(404)
-    if not request.get_json():
+    if not s_info:
         abort(400, description="Not a JSON")
-    for key, value in request.get_json().value():
+    for key, value in s_info.items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(s_obj, key, value)
     s_obj.save()
