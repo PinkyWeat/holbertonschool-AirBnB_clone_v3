@@ -25,6 +25,7 @@ def get_all_cities(s_id):
 @app_views.route("/cities/<c_id>", methods=['GET'], strict_slashes=False)
 def get_city_id(c_id):
     """gets city by id"""
-    if storage.get(City, c_id) is None:
+    city = storage.get(City, c_id)
+    if city is None:
         abort(404)
-    return jsonify(storage.get(City, c_id).to_dict())
+    return city.to_dict()
