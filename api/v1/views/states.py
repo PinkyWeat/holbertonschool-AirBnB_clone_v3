@@ -36,7 +36,7 @@ def del_state(s_id):
     return ({}), 200
 
 
-@app_views.route("/states/", strict_slashes=False, methods=['POST'])
+@app_views.route("/states/", methods=['POST'], strict_slashes=False,)
 def post_state():
     """enables users to send HTML form data to server"""
     if not request.get_json():
@@ -48,3 +48,18 @@ def post_state():
     state_post = State(**state_post)
     state_post.save()
     return jsonify(state_post.to_dict()), 201
+
+
+@app_views.route("states/<s_id>", methods=['PUT'], strict_slashes=False)
+def put_states(s_id):
+    """puts updated instance"""
+    s_obj = torage.get(State, s_id)
+    if not s_obj:
+        abort(404)
+    if not request.get_json():
+        abort(400, description="Not a JSON")
+    for key, value in request.get_json().value():
+        if key not in ['id', 'created_at', 'updated_at']:
+            setattr(s_obj, key, value)
+    s_obj.save()
+    return jsonify(s_obj.to_dict()), 200
