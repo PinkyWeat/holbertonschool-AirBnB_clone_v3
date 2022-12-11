@@ -47,4 +47,4 @@ def post_state():
     state_post = request.get_json()
     state_post = State(**state_post)
     state_post.save()
-    return jsonify(state_post.to_dict(), 201)
+    return jsonify(state_post.to_dict()), 201
