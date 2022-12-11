@@ -1,4 +1,4 @@
-#!/bin/usr/python3
+#!/usr/bin/python3
 """states views module"""
 from flask import Flask, request, abort, jsonify
 from models import storage
