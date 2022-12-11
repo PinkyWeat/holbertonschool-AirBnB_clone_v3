@@ -14,7 +14,7 @@ def get_all_cities(state_id):
     """get all cities"""
     themCities = []
     state = storage.get(State, state_id)
-    if state is None:
+    if state is None or state.cities is None:
         abort(404)
     for city in state.cities:
         themCities.append(city.to_dict())
