@@ -36,7 +36,7 @@ def del_state(s_id):
     return ({}), 200
 
 
-@app_views.route("/states/<s_id>", methods=['POST'], strict_slashes=False)
+@app_views.route("/states/", strict_slashes=False, methods=['POST'])
 def post_state():
     """enables users to send HTML form data to server"""
     if not request.get_json():
