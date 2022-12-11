@@ -37,7 +37,7 @@ def del_state(s_id):
 
 
 @app_views.route("/states/<s_id>", methods=['POST'], strict_slashes=False)
-def post_state(s_id):
+def post_state():
     """enables users to send HTML form data to server"""
     if not request.get_json():
         abort(400, 'Not a JSON')
