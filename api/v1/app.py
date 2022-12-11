@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Flask module"""
-import os
+from os import *
 from flask import Flask
 from models import storage
 from api.v1.views import app_views
