@@ -28,13 +28,13 @@ def get_by_id(amenity_id):
     return jsonify(amenity.to_dict())
 
 
-@app_views.route("/amenities/<amenity_id>", strict_slashes=False,
-                 methods=['DELETE'])
+@app_views.route("/amenities/<amenity_id>", methods=['DELETE'],
+                 strict_slashes=False)
 def del_amenity(amenity_id):
     """deletes an amenity"""
     amenity = storage.get(Amenity, amenity_id)
-    if amenity is none:
+    if amenity is None:
         abort(404)
     amenity.delete()
     storage.save()
-    return ({}), 200
+    return jsonify({}), 200
