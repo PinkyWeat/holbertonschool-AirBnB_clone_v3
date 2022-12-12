@@ -18,7 +18,7 @@ def get_all_cities(state_id):
         abort(404)
     for city in state.cities:
         themCities.append(city.to_dict())
-    return jsonify(themCities)
+    return themCities
 
 
 @app_views.route("/cities/<city_id>", methods=['GET'], strict_slashes=False)
