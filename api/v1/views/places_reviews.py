@@ -49,7 +49,7 @@ def post_review(place_id):
     """enables users to send HTML form data to server"""
     place = storage.get(Place, place_id)
     review = request.get_json()
-    
+
     if place is None:
         abort(404)
     if review is None:
@@ -63,7 +63,7 @@ def post_review(place_id):
         abort(404)
     if "text" not in review.keys():
         abort(400, description="Missing text")
-        
+
     review['place_id'] = place_id
     review = Review(**review)
     review.save()
