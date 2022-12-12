@@ -42,3 +42,30 @@ def del_place(place_id):
     place.delete()
     storage.save()
     return jsonify({}), 200
+
+
+@app_views.route("/cities/<city_id>/places",
+                 strict_slashes=False, methods=['POST'])
+def post_places(city_id):
+    """enables users to send HTML form data to server"""
+    city = storage.get(City, city_id)
+    new_place = request.get_json()
+
+    if city is None:
+        abort(404)
+    if new_place is None:
+        abort(400, description="Not a JSON")
+
+    if "name" not in new_place:
+        abort(400, description="Missing name")
+
+    if "user_id" not in new_place:
+        abort(400, description="Missing user_id")
+
+    if storage.get(User, new_place['user_id']) is None:
+        abort(404)
+
+    new_place['city_id'] = city_id
+    new_place = Place(**new_place)
+    new_place.save()
+    return jsonify(new_place.to_dict()), 201
