@@ -54,7 +54,7 @@ def post_amenity():
     return jsonify(amenity.to_dict()), 201
 
 
-@pp_views.route("/amenities/<amenity_id>", methods=['PUT'],
+@app_views.route("/amenities/<amenity_id>", methods=['PUT'],
                 strict_slashes=False)
 def put_amenity(amenity_id):
     """puts updated amenity instance"""
