@@ -5,6 +5,7 @@ from flask import abort, request, jsonify
 from models import storage
 from models.user import User
 
+
 @app_views.route("/users/", strict_slashes=False, methods=['GET'])
 def users_index():
     """gets all users"""
@@ -18,7 +19,7 @@ def users_index():
 @app_views.route("/users/<user_id>", strict_slashes=False, methods=['GET'])
 def get_users(user_id):
     """get users by id"""
-    user = storage.get(User, user_id) 
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     return jsonify(user.to_dict())
@@ -33,3 +34,17 @@ def user_delete(user_id):
     user.delete()
     storage.save()
     return jsonify({}), 200
+
+
+@app_views.route("/users", methods=['POST'], strict_slashes=False)
+def post_user():
+    """enables users to send HTML form data to server"""
+    user_data = request.get_json()
+    if not user_data:
+        abort(400, description="Not a JSON")
+    if "name" not in user_data.keys():
+        abort(400, description="Missing Name")
+
+    user = User(**user_data)
+    user.save()
+    return jsonify(user.to_dict()), 201
