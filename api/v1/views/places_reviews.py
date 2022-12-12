@@ -11,21 +11,33 @@ from models.review import Review
 
 
 @app_views.route("/places/<place_id>/reviews",
-                 strict_slashes=False, methods=['GET'])
+                 methods=['GET'], strict_slashes=False,)
 def get_reviews(place_id):
-    review = storage.get(Place, place_id)
+    place = storage.get(Place, place_id)
     themReviews = []
-    if review is None:
+    if place is None:
         abort(404)
-    reviews = storage.get(Place, place_id).reviews
-    for rev in reviews:
+    for rev in place.reviews:
         themReviews.append(rev.to_dict())
     return jsonify(themReviews)
 
-@app_views.route("/reviews/<review_id>", strict_slashes=False, methods=['GET'])
+
+@app_views.route("/reviews/<review_id>",  methods=['GET'], strict_slashes=False)
 def get_reviews(review_id):
     """get places by id"""
     review = storage.get(Review, review_id)
     if review_id is None:
         abort(404)
     return jsonify(review.to_dict())
+
+
+@app_views.route("/reviews/<review_id>",
+                 strict_slashes=False, methods=['DELETE'])
+def del_review(review_id):
+    """deletes reviews by id"""
+    review = storage.get(Review, review_id)
+    if review is None:
+        abort(404)
+    review.delete()
+    storage.save()
+    return jsonify({}), 200
