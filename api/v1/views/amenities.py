@@ -60,13 +60,14 @@ def put_amenity(amenity_id):
     """puts updated amenity instance"""
     amenity = storage.get(Amenity, amenity_id)
     amenity_data = request.get_json()
+    ignore_me = ('id', 'created_at', 'updated_at')
 
     if amenity is None:
         abort(404)
     if amenity_data is None:
         abort(400, description="Not a JSON")
-    ignore_me = ('id', 'created_at', 'updated_at')
-    for key, value in ignore_me.items():
+
+    for key, value in amenity_data.items():
         if key not in ignore_me:
             setattr(amenity, key, value)
     storage.save()
