@@ -14,11 +14,11 @@ from models.place import Place
                  strict_slashes=False, methods=['GET'])
 def get_places(city_id):
     """gets all places"""
-    places = storage.get(City, city_id)
+    city = storage.get(City, city_id)
     themPlaces = []
-    if place is None:
+    if city is None:
         abort(404)
-    for place in places.places:
+    for place in city.places:
         themPlaces.append(place.to_dict())
     return jsonify(themPlaces)
 
