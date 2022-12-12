@@ -40,15 +40,12 @@ def user_delete(user_id):
 def post_user():
     """enables users to send HTML form data to server"""
     user_data = request.get_json()
-    if not user_data:
+    if user_data is None:
         abort(400, description="Not a JSON")
-    if "name" not in user_data.keys():
-        abort(400, description="Missing Name")
     if "email" not in user_data.keys():
         abort(400, description="Missing Email")
     if "password" not in user_data.keys():
         abort(400, description="Missing Password")
-
     user = User(**user_data)
     user.save()
     return jsonify(user.to_dict()), 201
