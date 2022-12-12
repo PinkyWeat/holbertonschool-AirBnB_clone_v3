@@ -38,4 +38,4 @@ def del_city(city_id):
     else:
         city.delete()
         storage.save()
-        return {}, 200
+    return jsonify({}), 200
