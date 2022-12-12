@@ -13,7 +13,7 @@ from models.amenity import Amenity
 def get_all_amenities():
     """gets all amenities"""
     themAmenities = []
-    amenities = storage.all(Amenity)
+    amenities = storage.all(Amenity).values()
     for amenity in amenities:
         themAmenities.append(amenity.to_dict())
     return jsonify(themAmenities)
@@ -21,7 +21,8 @@ def get_all_amenities():
 @app_views.route('amenities/<amenity_id>', methods=['GET'], strict_slashes=False)
 def get_by_id(amenity_id):
     """gets amenity by id"""
-    if storage.get(Amenity, amenity_id) is None:
-        abort(404, description="Not found")
-    return jsonify(storage.get(Amenity, amenity_id).to_dict())
+    amenity = storage.get(Amenity, amenity_id)
+    if amenity is None:
+        abort(404)
+    return jsonify(amenity.to_dict())
 
