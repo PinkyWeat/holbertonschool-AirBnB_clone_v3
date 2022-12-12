@@ -72,7 +72,7 @@ def put_city(city_id):
     ignore_keys = ('id', 'state_id', 'created_at', 'updated_at')
 
     if city is None:
-        abort(400)
+        abort(404)
     if city_data is None:
         abort(400, description="Not a JSON")
 
