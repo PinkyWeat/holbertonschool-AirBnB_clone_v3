@@ -43,7 +43,7 @@ def del_amenity(amenity_id):
 @app_views.route("/amenities", strict_slashes=False, methods=['POST'])
 def post_amenity():
     """enables users to send HTML form data to server"""
-    amenity_data = request.is_json()
+    amenity_data = request.is_json
     if not amenity_data:
         abort(400)
     if "name" not in amenity_data:
