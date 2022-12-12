@@ -44,6 +44,10 @@ def post_user():
         abort(400, description="Not a JSON")
     if "name" not in user_data.keys():
         abort(400, description="Missing Name")
+    if "email" not in user_data.keys():
+        abort(400, description="Missing Email")
+    if "password" not in user_data.keys():
+        abort(400, description="Missing Password")
 
     user = User(**user_data)
     user.save()
