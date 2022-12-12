@@ -52,3 +52,22 @@ def post_amenity():
     amenity = Amenity(**amenity_data)
     amenity.save()
     return jsonify(amenity.to_dict()), 201
+
+
+@pp_views.route("/amenities/<amenity_id>", methods=['PUT'],
+                strict_slashes=False)
+def put_amenity(amenity_id):
+    """puts updated amenity instance"""
+    amenity = storage.get(Amenity, amenity_id)
+    amenity_data = request.get_json()
+
+    if amenity is None:
+        abort(404)
+    if amenity_data is None:
+        abort(400, description="Not a JSON")
+    ignore_me = ('id', 'created_at', 'updated_at')
+    for key, value in ignore_me.items():
+        if key not in ignore_me:
+            setattr(amenity, key, value)
+    storage.save()
+    return jsonify(amenity.to_dict()), 200
