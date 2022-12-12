@@ -9,7 +9,7 @@ from models import storage
 
 
 @app_views.route("/places/<place_id>/reviews", methods=['GET'], strict_slashes=False,)
-def get_reviews(place_id):
+def get_all_reviews(place_id):
     """gets all reviews"""
     place = storage.get(Place, place_id)
     themReviews = []
