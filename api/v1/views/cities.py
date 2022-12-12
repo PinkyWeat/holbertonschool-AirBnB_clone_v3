@@ -40,3 +40,21 @@ def del_city(city_id):
     city.delete()
     storage.save()
     return ({}), 200
+
+@app_views.route("/states/<state_id>/cities", methods=['POST'], strict_slashes=False)
+def post_city(state_id):
+    """enables users to send HTML form data to server"""
+    state = storage.get(State, state_id)
+    c_info = request.get_json()
+
+    if state is None:
+        abort(404)
+    if c_info is None:
+        abort(400, description="Not a JSON")
+    if "name" not in c_info:
+        abort(400, description="Missing Name")
+    
+    c_info['state_id'] = state_id
+    c_info = City(**c_info)
+    c_info.save()
+    return jsonify(c_info.to_dict()), 201
