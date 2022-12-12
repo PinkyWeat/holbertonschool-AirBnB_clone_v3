@@ -14,9 +14,11 @@ from models.place import Place
                  strict_slashes=False, methods=['GET'])
 def get_places(city_id):
     """gets all places"""
-    places = storage.get(City, city_id).places
+    places = storage.get(City, city_id)
     themPlaces = []
-    for place in places:
+    if place is None:
+        abort(404)
+    for place in places.places:
         themPlaces.append(place.to_dict())
     return jsonify(themPlaces)
 
@@ -28,3 +30,15 @@ def get_places_id(place_id):
     if place is None:
         abort(404)
     return jsonify(place.to_dict())
+
+
+@app_views.route("/places/<place_id>",
+                 strict_slashes=False, methods=['DELETE'])
+def del_place(place_id):
+    """delete a place"""
+    place = storage.get(Place, place_id)
+    if place is None:
+        abort(404)
+    place.delete()
+    storage.save()
+    return jsonify({}), 200
