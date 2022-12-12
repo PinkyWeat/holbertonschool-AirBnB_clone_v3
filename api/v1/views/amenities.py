@@ -38,3 +38,17 @@ def del_amenity(amenity_id):
     amenity.delete()
     storage.save()
     return jsonify({}), 200
+
+
+@app_views.route("/amenities", strict_slashes=False, methods=['POST'])
+def post_amenity():
+    """enables users to send HTML form data to server"""
+    amenity_data = request.is_json()
+    if not amenity_data:
+        abort(400)
+    if "name" not in amenity_data:
+        abort(400, description="Missing Name")
+
+    amenity_data = Amenity(**amenity_data)
+    amenity_data.save()
+    return jsonify(amenity_data.to_dict()), 201
